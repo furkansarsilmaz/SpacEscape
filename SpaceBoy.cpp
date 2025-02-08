@@ -9,6 +9,13 @@ const int boardWidth = width + 2 ;
 const int boardheight = height + 2 ;
 int playerX =  width / 2  + 1 ;
 int playerY =  height / 2  + 1 ;
+bool gameOver = FALSE ;
+int meteorX ;
+int meteorY ;
+/*
+calculate points with fallen meteors
+*/
+
 
 void setup(char board [boardheight][boardWidth]){
     for (int i = 0; i < boardheight; i++)
@@ -50,50 +57,68 @@ void input(char board [boardheight][boardWidth]){
         {
             board[playerX][playerY] = ' ';
             playerX-- ;
-            break;
         }
+        break;
     case 's':
         if (playerX < height)
         {
             board[playerX][playerY] = ' ';
-            playerX++ ;
-            break;            
+            playerX++ ;            
         }
+        break;
     case 'a':
         if (playerY > 1 )
         {
             board[playerX][playerY] = ' ';
-            playerY--;
-            break;    
+            playerY--;    
         }
+        break;
     case 'd':
         if (playerY < width)
         {
             board[playerX][playerY] = ' ';
-            playerY++ ;
-            break;   
+            playerY++ ;   
         }
+        break;
+    case 'q' :
+        gameOver = true ;
+        break;
 
     default:
         break;
     }
 };
 
-void logic();
-bool gameOver = FALSE ;
+void createMeteor(){
+    meteorX = ( rand() % 19 ) + 1;
+    meteorY = /*( rand() % 11 ) +*/ 1;
+}
+
+void meteorMove(char board [boardheight][boardWidth],int &meteorX,int &meteorY){
+    if (meteorY <= height - 1)
+    {
+        board[meteorY][meteorX] = ' ' ;
+        meteorY++ ;
+        board[meteorY][meteorX] = '*' ;
+    }
+    if (meteorY == height)
+    {
+        board[meteorY][meteorX] = ' ' ;
+        createMeteor();
+    }
+}
 
 int main(){
     char board [boardheight][boardWidth] ;
     setup(board);
+    createMeteor();
     while (!gameOver)
     {
         drawBoard(board);
         input(board);
-        Sleep(50);
-
-        
+        Sleep(125);
+        meteorMove(board,meteorX,meteorY);   
         //gameOver = TRUE ;
     }
-    
     return 0 ;
 }
