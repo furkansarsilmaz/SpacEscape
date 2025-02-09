@@ -10,10 +10,15 @@ const int boardheight = height + 2 ;
 int playerX =  width / 2  + 1 ;
 int playerY =  height / 2  + 1 ;
 bool gameOver = FALSE ;
-int meteorX ;
-int meteorY ;
+const int meteorQuant = 4 ;
+int meteorX[meteorQuant] ;
+int meteorY[meteorQuant] ;
 /*
 calculate points with fallen meteors
+
+dizi ile meteorları tut 
+for döngüsü ile konumlarını random al
+for düngüsü ile hareket ettir
 */
 
 
@@ -38,7 +43,9 @@ void setup(char board [boardheight][boardWidth]){
 void drawBoard(char board [boardheight][boardWidth]){
     system("cls");
     board[playerX][playerY] = '^';
-    for(int i = 0 ; i < boardheight ; i++){
+
+    for(int i = 0 ; i < boardheight ; i++)
+    {
         for (int j = 0; j < boardWidth; j++)
         {
             std::cout << board[i][j] ;
@@ -90,21 +97,27 @@ void input(char board [boardheight][boardWidth]){
 };
 
 void createMeteor(){
-    meteorX = ( rand() % 19 ) + 1;
-    meteorY = /*( rand() % 11 ) +*/ 1;
+    for(int i = 0 ; i < meteorQuant ; i++)
+    {
+        meteorX[i] = ( rand() % 19 ) + 1;
+        meteorY[i] = 1;
+    }
 }
 
-void meteorMove(char board [boardheight][boardWidth],int &meteorX,int &meteorY){
-    if (meteorY <= height - 1)
+void meteorMove(char board [boardheight][boardWidth],int meteorX[meteorQuant],int meteorY[meteorQuant]){
+    for (int i = 0; i < meteorQuant; i++)
     {
-        board[meteorY][meteorX] = ' ' ;
-        meteorY++ ;
-        board[meteorY][meteorX] = '*' ;
-    }
-    if (meteorY == height)
-    {
-        board[meteorY][meteorX] = ' ' ;
-        createMeteor();
+        if (meteorY[i] <= height - 1)
+        {
+            board[meteorY[i]][meteorX[i]] = ' ' ;
+            meteorY[i]++;
+            board[meteorY[i]][meteorX[i]] = '*' ;
+        }
+        if (meteorY[i] == height)
+        {
+            board[meteorY[i]][meteorX[i]] = ' ' ;
+            createMeteor();
+        }
     }
 }
 
