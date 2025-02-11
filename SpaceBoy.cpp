@@ -114,7 +114,19 @@ void meteorMove(char board [boardheight][boardWidth],int meteorX[meteorQuant],in
         {
             board[meteorY[i]][meteorX[i]] = ' ' ;
             meteorY[i]++;
-            board[meteorY[i]][meteorX[i]] = '*' ;
+            if(meteorY[i] == playerX && meteorX[i] == playerY )
+            {   
+                system("cls");
+                std::cout << "#############" << std::endl ;
+                std::cout << "GAMEOVER !!!"  << std::endl ;
+                std::cout << "Player Point : " << playerPoint << std::endl ;
+                std::cout << "#############" ;
+                gameOver = true ;
+            }
+            else
+            {
+                board[meteorY[i]][meteorX[i]] = '*' ;
+            }
         }
         else if (meteorY[i] == height)
         {
