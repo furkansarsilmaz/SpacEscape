@@ -15,12 +15,6 @@ int meteorX[meteorQuant] ;
 int meteorY[meteorQuant] ;
 int playerPoint ;
 
-/*
-calculate points with fallen meteors
-
-*/
-
-
 void setup(char board [boardheight][boardWidth]){
     for (int i = 0; i < boardheight; i++)
     {
@@ -102,10 +96,18 @@ void createMeteor(){
         for(int i = 0 ; i < meteorQuant ; i++)
         {
             meteorX[i] = ( rand() % 19 ) + 1;
-            meteorY[i] = /*( rand() % 5 ) +*/ 1 ;
+            meteorY[i] = 1 ;
         }
     }
 }
+
+void gameover(){
+    std::cout << "#############" << std::endl ;
+    std::cout << "GAMEOVER !!!"  << std::endl ;
+    std::cout << "Player Point : " << playerPoint << std::endl ;
+    std::cout << "#############" ;    
+}
+
 
 void meteorMove(char board [boardheight][boardWidth],int meteorX[meteorQuant],int meteorY[meteorQuant]){
     for (int i = 0; i < meteorQuant; i++)
@@ -117,10 +119,7 @@ void meteorMove(char board [boardheight][boardWidth],int meteorX[meteorQuant],in
             if(meteorY[i] == playerX && meteorX[i] == playerY )
             {   
                 system("cls");
-                std::cout << "#############" << std::endl ;
-                std::cout << "GAMEOVER !!!"  << std::endl ;
-                std::cout << "Player Point : " << playerPoint << std::endl ;
-                std::cout << "#############" ;
+                gameover();
                 gameOver = true ;
             }
             else
@@ -146,9 +145,8 @@ int main(){
     {
         drawBoard(board);
         input(board);
-        Sleep(125);
+        Sleep(200);
         meteorMove(board,meteorX,meteorY);   
-        //gameOver = TRUE ;
     }
     return 0 ;
 }
